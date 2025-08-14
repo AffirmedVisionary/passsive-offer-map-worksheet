@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passive Offer Map Worksheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #fefefe 0%, #f8f8f8 100%);
+            color: #2d3748;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #4a5568;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #4fd1c7, #9f7aea, #f093fb, #63b3ed) 1;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="number"], textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid rgba(77, 209, 199, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #4fd1c7;
+            box-shadow: 0 0 0 3px rgba(77, 209, 199, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group, .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(77, 209, 199, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover, .radio-item:hover {
+            background: rgba(77, 209, 199, 0.1);
+            border-color: #4fd1c7;
+        }
+
+        .checkbox-item.selected, .radio-item.selected {
+            background: linear-gradient(135deg, rgba(77, 209, 199, 0.2), rgba(159, 122, 234, 0.2));
+            border-color: #4fd1c7;
+            transform: scale(1.02);
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #4fd1c7;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4fd1c7, #9f7aea, #f093fb, #63b3ed);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .save-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(77, 209, 199, 0.3);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .save-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(77, 209, 199, 0.4);
+        }
+
+        .breakdown-button {
+            background: linear-gradient(135deg, #f093fb, #9f7aea);
+            color: white;
+            border: none;
+            padding: 18px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .breakdown-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(240, 147, 251, 0.4);
+        }
+
+        .breakdown-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .breakdown-button:hover::before {
+            left: 100%;
+        }
+
+        .congratulations-section {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1), rgba(159, 122, 234, 0.1));
+            border: 2px solid rgba(240, 147, 251, 0.3);
+            text-align: center;
+        }
+
+        .congratulations-section h2 {
+            background: linear-gradient(135deg, #f093fb, #9f7aea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .congratulations-section p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px 20px;
+            border-bottom: 2px solid rgba(77, 209, 199, 0.2);
+        }
+
+        .popup-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #4a5568;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            background: rgba(77, 209, 199, 0.1);
+            color: #4fd1c7;
+        }
+
+        .popup-body {
+            padding: 30px;
+            line-height: 1.7;
+        }
+
+        .coaching-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            border-left: 4px solid #4fd1c7;
+        }
+
+        .coaching-section h3 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .coaching-section p {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .day-plan {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+        }
+
+        .day-plan:nth-child(odd) {
+            border-left-color: #4fd1c7;
+        }
+
+        .day-plan:nth-child(even) {
+            border-left-color: #9f7aea;
+        }
+
+        .day-plan h4 {
+            color: #2d3748;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .day-task {
+            background: rgba(77, 209, 199, 0.1);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .day-why {
+            font-style: italic;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .day-stretch {
+            background: rgba(159, 122, 234, 0.1);
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 3px solid #9f7aea;
+        }
+
+        .completion-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .completion-badge.show {
+            opacity: 1;
+        }
+
+        .copy-button {
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .copy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(77, 209, 199, 0.3);
+        }
+
+        .copy-button.copied {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            transform: scale(1.05);
+        }
+
+        .copy-button.copied::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s ease-out;
+        }
+
+        .cover-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .cover-content {
+            max-width: 700px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cover-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .cover-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .cover-description p {
+            margin-bottom: 20px;
+        }
+
+        .cover-description a {
+            color: #4fd1c7;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .cover-description a:hover {
+            color: #9f7aea;
+        }
+
+        .get-started-button {
+            background: linear-gradient(135deg, #4fd1c7, #9f7aea, #f093fb);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(77, 209, 199, 0.3);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .get-started-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(77, 209, 199, 0.4);
+        }
+
+        .get-started-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .get-started-button:hover::before {
+            left: 100%;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: translate(-50%, -50%) scale(4);
+                opacity: 0;
+            }
+        }
+
+        .prompt-container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(77, 209, 199, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .other-input {
+            margin-top: 10px;
+            padding: 8px 12px;
+            border: 2px solid rgba(77, 209, 199, 0.3);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+            display: none;
+        }
+
+        .other-input:focus {
+            outline: none;
+            border-color: #4fd1c7;
+            box-shadow: 0 0 0 2px rgba(77, 209, 199, 0.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .other-input.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .cover-page {
+                padding: 20px 10px;
+            }
+            
+            .cover-content {
+                padding: 40px 30px;
+            }
+            
+            .cover-title {
+                font-size: 2.5rem;
+            }
+            
+            .cover-description {
+                font-size: 1rem;
+            }
+            
+            .get-started-button {
+                padding: 18px 35px;
+                font-size: 1.1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+            
+            .checkbox-group, .radio-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .save-button {
+                bottom: 80px;
+                right: 20px;
+                padding: 12px 20px;
+            }
+            
+            .breakdown-button {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+            
+            .congratulations-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .popup-content {
+                margin: 10px;
+                max-height: 85vh;
+            }
+            
+            .popup-header {
+                padding: 20px 20px 15px;
+            }
+            
+            .popup-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .popup-body {
+                padding: 20px;
+            }
+            
+            .coaching-section {
+                padding: 20px;
+            }
+            
+            .day-plan {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="container">
+        <!-- Cover Page -->
+        <div class="cover-page" id="coverPage">
+            <div class="cover-content">
+                <h1 class="cover-title">Passive Offer Map</h1>
+                <div class="cover-description">
+                    <p>The Passive Offer Map is a guided tool to help you design a sustainable, low-pressure income ecosystem. It takes you step-by-step through your offers; from the first free touchpoint to your most premium expansion, so you can build a flow that feels good to run and grows at your pace.</p>
+                    
+                    <p>This worksheet was created for members of the Visionary In Progress community as part of our Profit Softly module, where we focus on building income systems without burnout, hustle, or overwhelm.</p>
+                    
+                    <p>If you discovered this worksheet outside the community, you're welcome to use it, and if you'd like the full set of companion worksheets, lessons, and resources, visit <a href="https://acanvatool.com/vip" target="_blank">acanvatool.com/vip</a> to learn more.</p>
+                </div>
+                
+                <button class="get-started-button" id="getStartedButton">✨ Get Started</button>
+            </div>
+        </div>
+
+        <!-- Main Worksheet (initially hidden) -->
+        <div class="worksheet-content" id="worksheetContent" style="display: none;">
+            <div class="header">
+                <h1>Passive Offer Map</h1>
+                <p>Design your offer pathway with intention and clarity</p>
+            </div>
+
+        <form id="offerMapForm">
+            <!-- Section 1: Core Focus -->
+            <div class="section" data-section="1">
+                <h2>1. Core Focus <span class="completion-badge" id="badge-1">Complete</span></h2>
+                
+                <div class="question">
+                    <label for="topic">What topic, niche, or transformation will your offers centre around?</label>
+                    <textarea id="topic" name="topic" placeholder="Describe your core focus area..."></textarea>
+                </div>
+
+                <div class="question">
+                    <label for="audience">Who is your primary audience?</label>
+                    <textarea id="audience" name="audience" placeholder="Describe your ideal audience..."></textarea>
+                </div>
+
+                <div class="question">
+                    <label>Which of these best describe your tone and values? (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="soft-supportive">
+                            <input type="checkbox" id="tone1" name="tone" value="soft-supportive">
+                            <label for="tone1">Soft & supportive</label>
+                        </div>
+                        <div class="checkbox-item" data-value="strategic-clear">
+                            <input type="checkbox" id="tone2" name="tone" value="strategic-clear">
+                            <label for="tone2">Strategic & clear</label>
+                        </div>
+                        <div class="checkbox-item" data-value="healing-centred">
+                            <input type="checkbox" id="tone3" name="tone" value="healing-centred">
+                            <label for="tone3">Healing-centred</label>
+                        </div>
+                        <div class="checkbox-item" data-value="accessible-beginner">
+                            <input type="checkbox" id="tone4" name="tone" value="accessible-beginner">
+                            <label for="tone4">Accessible & beginner-friendly</label>
+                        </div>
+                        <div class="checkbox-item" data-value="gentle-accountability">
+                            <input type="checkbox" id="tone5" name="tone" value="gentle-accountability">
+                            <label for="tone5">Gentle accountability</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Free Entry Point -->
+            <div class="section" data-section="2">
+                <h2>2. Free Entry Point <span class="completion-badge" id="badge-2">Complete</span></h2>
+                
+                <div class="question">
+                    <label for="freebie-title">Title of your freebie</label>
+                    <input type="text" id="freebie-title" name="freebie-title" placeholder="Enter your freebie title...">
+                </div>
+
+                <div class="question">
+                    <label>Format (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="pdf">
+                            <input type="radio" id="format1" name="freebie-format" value="pdf">
+                            <label for="format1">PDF</label>
+                        </div>
+                        <div class="radio-item" data-value="notion">
+                            <input type="radio" id="format2" name="freebie-format" value="notion">
+                            <label for="format2">Notion Template</label>
+                        </div>
+                        <div class="radio-item" data-value="mini-course">
+                            <input type="radio" id="format3" name="freebie-format" value="mini-course">
+                            <label for="format3">Mini Course</label>
+                        </div>
+                        <div class="radio-item" data-value="art-pack">
+                            <input type="radio" id="format4" name="freebie-format" value="art-pack">
+                            <label for="format4">Art Pack</label>
+                        </div>
+                        <div class="radio-item" data-value="email-series">
+                            <input type="radio" id="format5" name="freebie-format" value="email-series">
+                            <label for="format5">Email Series</label>
+                        </div>
+                        <div class="radio-item" data-value="other">
+                            <input type="radio" id="format6" name="freebie-format" value="other">
+                            <label for="format6">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="freebie-format-other" name="freebie-format-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Where will you host it? (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="gumroad">
+                            <input type="checkbox" id="host1" name="freebie-host" value="gumroad">
+                            <label for="host1">Gumroad</label>
+                        </div>
+                        <div class="checkbox-item" data-value="payhip">
+                            <input type="checkbox" id="host2" name="freebie-host" value="payhip">
+                            <label for="host2">Payhip</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack">
+                            <input type="checkbox" id="host3" name="freebie-host" value="substack">
+                            <label for="host3">Substack</label>
+                        </div>
+                        <div class="checkbox-item" data-value="notion">
+                            <input type="checkbox" id="host4" name="freebie-host" value="notion">
+                            <label for="host4">Notion</label>
+                        </div>
+                        <div class="checkbox-item" data-value="canva">
+                            <input type="checkbox" id="host5" name="freebie-host" value="canva">
+                            <label for="host5">Canva Templates</label>
+                        </div>
+                        <div class="checkbox-item" data-value="other">
+                            <input type="checkbox" id="host6" name="freebie-host" value="other">
+                            <label for="host6">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="freebie-host-other" name="freebie-host-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Estimated creation time (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="under-1">
+                            <input type="radio" id="time1" name="freebie-time" value="under-1">
+                            <label for="time1">Under 1 hour</label>
+                        </div>
+                        <div class="radio-item" data-value="1-2">
+                            <input type="radio" id="time2" name="freebie-time" value="1-2">
+                            <label for="time2">1–2 hours</label>
+                        </div>
+                        <div class="radio-item" data-value="2-4">
+                            <input type="radio" id="time3" name="freebie-time" value="2-4">
+                            <label for="time3">2–4 hours</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Current status (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="idea">
+                            <input type="radio" id="status1" name="freebie-status" value="idea">
+                            <label for="status1">Idea</label>
+                        </div>
+                        <div class="radio-item" data-value="drafting">
+                            <input type="radio" id="status2" name="freebie-status" value="drafting">
+                            <label for="status2">Drafting</label>
+                        </div>
+                        <div class="radio-item" data-value="design">
+                            <input type="radio" id="status3" name="freebie-status" value="design">
+                            <label for="status3">Design in Canva</label>
+                        </div>
+                        <div class="radio-item" data-value="ready">
+                            <input type="radio" id="status4" name="freebie-status" value="ready">
+                            <label for="status4">Ready to Publish</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Entry-Level Offer -->
+            <div class="section" data-section="3">
+                <h2>3. Entry-Level Offer (£5–£20) <span class="completion-badge" id="badge-3">Complete</span></h2>
+                
+                <div class="question">
+                    <label for="entry-title">Title</label>
+                    <input type="text" id="entry-title" name="entry-title" placeholder="Enter your entry-level offer title...">
+                </div>
+
+                <div class="question">
+                    <label for="entry-price">Price (£)</label>
+                    <input type="number" id="entry-price" name="entry-price" min="5" max="20" placeholder="5">
+                </div>
+
+                <div class="question">
+                    <label>Format (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="template">
+                            <input type="radio" id="entry-format1" name="entry-format" value="template">
+                            <label for="entry-format1">Template</label>
+                        </div>
+                        <div class="radio-item" data-value="mini-workshop">
+                            <input type="radio" id="entry-format2" name="entry-format" value="mini-workshop">
+                            <label for="entry-format2">Mini Workshop</label>
+                        </div>
+                        <div class="radio-item" data-value="art-pack">
+                            <input type="radio" id="entry-format3" name="entry-format" value="art-pack">
+                            <label for="entry-format3">Art Pack</label>
+                        </div>
+                        <div class="radio-item" data-value="toolkit">
+                            <input type="radio" id="entry-format4" name="entry-format" value="toolkit">
+                            <label for="entry-format4">Toolkit</label>
+                        </div>
+                        <div class="radio-item" data-value="other">
+                            <input type="radio" id="entry-format5" name="entry-format" value="other">
+                            <label for="entry-format5">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="entry-format-other" name="entry-format-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Platforms (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="gumroad">
+                            <input type="checkbox" id="entry-platform1" name="entry-platform" value="gumroad">
+                            <label for="entry-platform1">Gumroad</label>
+                        </div>
+                        <div class="checkbox-item" data-value="payhip">
+                            <input type="checkbox" id="entry-platform2" name="entry-platform" value="payhip">
+                            <label for="entry-platform2">Payhip</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack">
+                            <input type="checkbox" id="entry-platform3" name="entry-platform" value="substack">
+                            <label for="entry-platform3">Substack</label>
+                        </div>
+                        <div class="checkbox-item" data-value="notion">
+                            <input type="checkbox" id="entry-platform4" name="entry-platform" value="notion">
+                            <label for="entry-platform4">Notion</label>
+                        </div>
+                        <div class="checkbox-item" data-value="canva">
+                            <input type="checkbox" id="entry-platform5" name="entry-platform" value="canva">
+                            <label for="entry-platform5">Canva Templates</label>
+                        </div>
+                        <div class="checkbox-item" data-value="other">
+                            <input type="checkbox" id="entry-platform6" name="entry-platform" value="other">
+                            <label for="entry-platform6">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="entry-platform-other" name="entry-platform-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Estimated creation time (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="under-2">
+                            <input type="radio" id="entry-time1" name="entry-time" value="under-2">
+                            <label for="entry-time1">Under 2 hours</label>
+                        </div>
+                        <div class="radio-item" data-value="2-4">
+                            <input type="radio" id="entry-time2" name="entry-time" value="2-4">
+                            <label for="entry-time2">2–4 hours</label>
+                        </div>
+                        <div class="radio-item" data-value="half-day">
+                            <input type="radio" id="entry-time3" name="entry-time" value="half-day">
+                            <label for="entry-time3">Half day</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Status (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="idea">
+                            <input type="radio" id="entry-status1" name="entry-status" value="idea">
+                            <label for="entry-status1">Idea</label>
+                        </div>
+                        <div class="radio-item" data-value="drafting">
+                            <input type="radio" id="entry-status2" name="entry-status" value="drafting">
+                            <label for="entry-status2">Drafting</label>
+                        </div>
+                        <div class="radio-item" data-value="design">
+                            <input type="radio" id="entry-status3" name="entry-status" value="design">
+                            <label for="entry-status3">Design in Canva</label>
+                        </div>
+                        <div class="radio-item" data-value="ready">
+                            <input type="radio" id="entry-status4" name="entry-status" value="ready">
+                            <label for="entry-status4">Ready to Publish</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Core Offer -->
+            <div class="section" data-section="4">
+                <h2>4. Core Offer (£25–£50) <span class="completion-badge" id="badge-4">Complete</span></h2>
+                
+                <div class="question">
+                    <label for="core-title">Title</label>
+                    <input type="text" id="core-title" name="core-title" placeholder="Enter your core offer title...">
+                </div>
+
+                <div class="question">
+                    <label for="core-price">Price (£)</label>
+                    <input type="number" id="core-price" name="core-price" min="25" max="50" placeholder="25">
+                </div>
+
+                <div class="question">
+                    <label>Format (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="bundle">
+                            <input type="radio" id="core-format1" name="core-format" value="bundle">
+                            <label for="core-format1">Bundle</label>
+                        </div>
+                        <div class="radio-item" data-value="toolkit">
+                            <input type="radio" id="core-format2" name="core-format" value="toolkit">
+                            <label for="core-format2">Toolkit</label>
+                        </div>
+                        <div class="radio-item" data-value="template-pack">
+                            <input type="radio" id="core-format3" name="core-format" value="template-pack">
+                            <label for="core-format3">Template Pack</label>
+                        </div>
+                        <div class="radio-item" data-value="mini-course">
+                            <input type="radio" id="core-format4" name="core-format" value="mini-course">
+                            <label for="core-format4">Self-paced Mini Course</label>
+                        </div>
+                        <div class="radio-item" data-value="other">
+                            <input type="radio" id="core-format5" name="core-format" value="other">
+                            <label for="core-format5">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="core-format-other" name="core-format-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Platforms (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="gumroad">
+                            <input type="checkbox" id="core-platform1" name="core-platform" value="gumroad">
+                            <label for="core-platform1">Gumroad</label>
+                        </div>
+                        <div class="checkbox-item" data-value="payhip">
+                            <input type="checkbox" id="core-platform2" name="core-platform" value="payhip">
+                            <label for="core-platform2">Payhip</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack">
+                            <input type="checkbox" id="core-platform3" name="core-platform" value="substack">
+                            <label for="core-platform3">Substack</label>
+                        </div>
+                        <div class="checkbox-item" data-value="notion">
+                            <input type="checkbox" id="core-platform4" name="core-platform" value="notion">
+                            <label for="core-platform4">Notion</label>
+                        </div>
+                        <div class="checkbox-item" data-value="canva">
+                            <input type="checkbox" id="core-platform5" name="core-platform" value="canva">
+                            <label for="core-platform5">Canva Templates</label>
+                        </div>
+                        <div class="checkbox-item" data-value="other">
+                            <input type="checkbox" id="core-platform6" name="core-platform" value="other">
+                            <label for="core-platform6">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="core-platform-other" name="core-platform-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Estimated creation time (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="2-4">
+                            <input type="radio" id="core-time1" name="core-time" value="2-4">
+                            <label for="core-time1">2–4 hours</label>
+                        </div>
+                        <div class="radio-item" data-value="half-day">
+                            <input type="radio" id="core-time2" name="core-time" value="half-day">
+                            <label for="core-time2">Half day</label>
+                        </div>
+                        <div class="radio-item" data-value="full-day">
+                            <input type="radio" id="core-time3" name="core-time" value="full-day">
+                            <label for="core-time3">Full day</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Status (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="idea">
+                            <input type="radio" id="core-status1" name="core-status" value="idea">
+                            <label for="core-status1">Idea</label>
+                        </div>
+                        <div class="radio-item" data-value="drafting">
+                            <input type="radio" id="core-status2" name="core-status" value="drafting">
+                            <label for="core-status2">Drafting</label>
+                        </div>
+                        <div class="radio-item" data-value="design">
+                            <input type="radio" id="core-status3" name="core-status" value="design">
+                            <label for="core-status3">Design in Canva</label>
+                        </div>
+                        <div class="radio-item" data-value="ready">
+                            <input type="radio" id="core-status4" name="core-status" value="ready">
+                            <label for="core-status4">Ready to Publish</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Expansion/Upsell -->
+            <div class="section" data-section="5">
+                <h2>5. Expansion / Upsell (£50+) <span class="completion-badge" id="badge-5">Complete</span></h2>
+                
+                <div class="question">
+                    <label for="expansion-title">Title</label>
+                    <input type="text" id="expansion-title" name="expansion-title" placeholder="Enter your expansion offer title...">
+                </div>
+
+                <div class="question">
+                    <label for="expansion-price">Price (£)</label>
+                    <input type="number" id="expansion-price" name="expansion-price" min="50" placeholder="50">
+                </div>
+
+                <div class="question">
+                    <label>Format (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="signature-course">
+                            <input type="radio" id="expansion-format1" name="expansion-format" value="signature-course">
+                            <label for="expansion-format1">Signature Course</label>
+                        </div>
+                        <div class="radio-item" data-value="coaching">
+                            <input type="radio" id="expansion-format2" name="expansion-format" value="coaching">
+                            <label for="expansion-format2">Coaching Session</label>
+                        </div>
+                        <div class="radio-item" data-value="big-bundle">
+                            <input type="radio" id="expansion-format3" name="expansion-format" value="big-bundle">
+                            <label for="expansion-format3">Big Bundle</label>
+                        </div>
+                        <div class="radio-item" data-value="membership">
+                            <input type="radio" id="expansion-format4" name="expansion-format" value="membership">
+                            <label for="expansion-format4">Membership Trial</label>
+                        </div>
+                        <div class="radio-item" data-value="other">
+                            <input type="radio" id="expansion-format5" name="expansion-format" value="other">
+                            <label for="expansion-format5">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="expansion-format-other" name="expansion-format-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Platforms (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="gumroad">
+                            <input type="checkbox" id="expansion-platform1" name="expansion-platform" value="gumroad">
+                            <label for="expansion-platform1">Gumroad</label>
+                        </div>
+                        <div class="checkbox-item" data-value="payhip">
+                            <input type="checkbox" id="expansion-platform2" name="expansion-platform" value="payhip">
+                            <label for="expansion-platform2">Payhip</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack">
+                            <input type="checkbox" id="expansion-platform3" name="expansion-platform" value="substack">
+                            <label for="expansion-platform3">Substack</label>
+                        </div>
+                        <div class="checkbox-item" data-value="notion">
+                            <input type="checkbox" id="expansion-platform4" name="expansion-platform" value="notion">
+                            <label for="expansion-platform4">Notion</label>
+                        </div>
+                        <div class="checkbox-item" data-value="canva">
+                            <input type="checkbox" id="expansion-platform5" name="expansion-platform" value="canva">
+                            <label for="expansion-platform5">Canva Templates</label>
+                        </div>
+                        <div class="checkbox-item" data-value="other">
+                            <input type="checkbox" id="expansion-platform6" name="expansion-platform" value="other">
+                            <label for="expansion-platform6">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="expansion-platform-other" name="expansion-platform-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label>Status (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="idea">
+                            <input type="radio" id="expansion-status1" name="expansion-status" value="idea">
+                            <label for="expansion-status1">Idea</label>
+                        </div>
+                        <div class="radio-item" data-value="drafting">
+                            <input type="radio" id="expansion-status2" name="expansion-status" value="drafting">
+                            <label for="expansion-status2">Drafting</label>
+                        </div>
+                        <div class="radio-item" data-value="design">
+                            <input type="radio" id="expansion-status3" name="expansion-status" value="design">
+                            <label for="expansion-status3">Design in Canva</label>
+                        </div>
+                        <div class="radio-item" data-value="ready">
+                            <input type="radio" id="expansion-status4" name="expansion-status" value="ready">
+                            <label for="expansion-status4">Ready to Publish</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Assets & Repurposing -->
+            <div class="section" data-section="6">
+                <h2>6. Assets & Repurposing <span class="completion-badge" id="badge-6">Complete</span></h2>
+                
+                <div class="question">
+                    <label>Which assets can you repurpose? (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="blog-posts">
+                            <input type="checkbox" id="asset1" name="repurpose-assets" value="blog-posts">
+                            <label for="asset1">Blog posts</label>
+                        </div>
+                        <div class="checkbox-item" data-value="recordings">
+                            <input type="checkbox" id="asset2" name="repurpose-assets" value="recordings">
+                            <label for="asset2">Lives / recordings</label>
+                        </div>
+                        <div class="checkbox-item" data-value="checklists">
+                            <input type="checkbox" id="asset3" name="repurpose-assets" value="checklists">
+                            <label for="asset3">Checklists</label>
+                        </div>
+                        <div class="checkbox-item" data-value="journal-prompts">
+                            <input type="checkbox" id="asset4" name="repurpose-assets" value="journal-prompts">
+                            <label for="asset4">Journal prompts</label>
+                        </div>
+                        <div class="checkbox-item" data-value="templates">
+                            <input type="checkbox" id="asset5" name="repurpose-assets" value="templates">
+                            <label for="asset5">Templates</label>
+                        </div>
+                        <div class="checkbox-item" data-value="artwork">
+                            <input type="checkbox" id="asset6" name="repurpose-assets" value="artwork">
+                            <label for="asset6">Artwork</label>
+                        </div>
+                        <div class="checkbox-item" data-value="notes">
+                            <input type="checkbox" id="asset7" name="repurpose-assets" value="notes">
+                            <label for="asset7">Notes / outlines</label>
+                        </div>
+                        <div class="checkbox-item" data-value="other">
+                            <input type="checkbox" id="asset8" name="repurpose-assets" value="other">
+                            <label for="asset8">Other</label>
+                        </div>
+                    </div>
+                    <input type="text" class="other-input" id="repurpose-assets-other" name="repurpose-assets-other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <label for="new-assets">What new assets are needed?</label>
+                    <textarea id="new-assets" name="new-assets" placeholder="Describe what new assets you need to create..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 7: Visual Offer Pathway -->
+            <div class="section" data-section="7">
+                <h2>7. Visual Offer Pathway <span class="completion-badge" id="badge-7">Complete</span></h2>
+                
+                <div class="question">
+                    <label>Which steps are in your offer journey? (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="freebie">
+                            <input type="checkbox" id="journey1" name="journey-steps" value="freebie">
+                            <label for="journey1">Freebie</label>
+                        </div>
+                        <div class="checkbox-item" data-value="nurture">
+                            <input type="checkbox" id="journey2" name="journey-steps" value="nurture">
+                            <label for="journey2">Nurture</label>
+                        </div>
+                        <div class="checkbox-item" data-value="entry-offer">
+                            <input type="checkbox" id="journey3" name="journey-steps" value="entry-offer">
+                            <label for="journey3">Entry Offer</label>
+                        </div>
+                        <div class="checkbox-item" data-value="core-offer">
+                            <input type="checkbox" id="journey4" name="journey-steps" value="core-offer">
+                            <label for="journey4">Core Offer</label>
+                        </div>
+                        <div class="checkbox-item" data-value="expansion">
+                            <input type="checkbox" id="journey5" name="journey-steps" value="expansion">
+                            <label for="journey5">Expansion</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Nurture touchpoints (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="welcome-email">
+                            <input type="checkbox" id="nurture1" name="nurture-touchpoints" value="welcome-email">
+                            <label for="nurture1">Welcome email</label>
+                        </div>
+                        <div class="checkbox-item" data-value="story-email">
+                            <input type="checkbox" id="nurture2" name="nurture-touchpoints" value="story-email">
+                            <label for="nurture2">Story email</label>
+                        </div>
+                        <div class="checkbox-item" data-value="bts-post">
+                            <input type="checkbox" id="nurture3" name="nurture-touchpoints" value="bts-post">
+                            <label for="nurture3">Behind-the-scenes social post</label>
+                        </div>
+                        <div class="checkbox-item" data-value="tips-carousel">
+                            <input type="checkbox" id="nurture4" name="nurture-touchpoints" value="tips-carousel">
+                            <label for="nurture4">Tips carousel</label>
+                        </div>
+                        <div class="checkbox-item" data-value="qa-poll">
+                            <input type="checkbox" id="nurture5" name="nurture-touchpoints" value="qa-poll">
+                            <label for="nurture5">Q&A or poll</label>
+                        </div>
+                        <div class="checkbox-item" data-value="testimonial">
+                            <input type="checkbox" id="nurture6" name="nurture-touchpoints" value="testimonial">
+                            <label for="nurture6">Testimonial or case study</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack-post">
+                            <input type="checkbox" id="nurture7" name="nurture-touchpoints" value="substack-post">
+                            <label for="nurture7">Substack post</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>CTA style (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="soft-invite">
+                            <input type="radio" id="cta1" name="cta-style" value="soft-invite">
+                            <label for="cta1">Soft invite</label>
+                        </div>
+                        <div class="radio-item" data-value="gentle-urgency">
+                            <input type="radio" id="cta2" name="cta-style" value="gentle-urgency">
+                            <label for="cta2">Gentle urgency (dates only)</label>
+                        </div>
+                        <div class="radio-item" data-value="story-led">
+                            <input type="radio" id="cta3" name="cta-style" value="story-led">
+                            <label for="cta3">Story-led CTA</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 8: Creation & Launch Notes -->
+            <div class="section" data-section="8">
+                <h2>8. Creation & Launch Notes <span class="completion-badge" id="badge-8">Complete</span></h2>
+                
+                <div class="question">
+                    <label>Creation window (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="single-sprint">
+                            <input type="radio" id="window1" name="creation-window" value="single-sprint">
+                            <label for="window1">Single sprint (today)</label>
+                        </div>
+                        <div class="radio-item" data-value="weekend">
+                            <input type="radio" id="window2" name="creation-window" value="weekend">
+                            <label for="window2">Weekend build</label>
+                        </div>
+                        <div class="radio-item" data-value="one-week">
+                            <input type="radio" id="window3" name="creation-window" value="one-week">
+                            <label for="window3">One week (little-by-little)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Launch confidence (Choose one)</label>
+                    <div class="radio-group">
+                        <div class="radio-item" data-value="ready-now">
+                            <input type="radio" id="confidence1" name="launch-confidence" value="ready-now">
+                            <label for="confidence1">Ready now</label>
+                        </div>
+                        <div class="radio-item" data-value="light-polish">
+                            <input type="radio" id="confidence2" name="launch-confidence" value="light-polish">
+                            <label for="confidence2">Need light polish</label>
+                        </div>
+                        <div class="radio-item" data-value="more-clarity">
+                            <input type="radio" id="confidence3" name="launch-confidence" value="more-clarity">
+                            <label for="confidence3">Need more clarity</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label>Simple promo plan (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item" data-value="social-post">
+                            <input type="checkbox" id="promo1" name="promo-plan" value="social-post">
+                            <label for="promo1">One social post</label>
+                        </div>
+                        <div class="checkbox-item" data-value="email">
+                            <input type="checkbox" id="promo2" name="promo-plan" value="email">
+                            <label for="promo2">One email</label>
+                        </div>
+                        <div class="checkbox-item" data-value="story-reel">
+                            <input type="checkbox" id="promo3" name="promo-plan" value="story-reel">
+                            <label for="promo3">One story/reel</label>
+                        </div>
+                        <div class="checkbox-item" data-value="dm-invites">
+                            <input type="checkbox" id="promo4" name="promo-plan" value="dm-invites">
+                            <label for="promo4">DM invites to warm leads</label>
+                        </div>
+                        <div class="checkbox-item" data-value="substack-note">
+                            <input type="checkbox" id="promo5" name="promo-plan" value="substack-note">
+                            <label for="promo5">Substack note</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <label for="affirmation">Optional affirmation</label>
+                    <textarea id="affirmation" name="affirmation" placeholder="Write yourself an encouraging affirmation..."></textarea>
+                </div>
+            </div>
+        </form>
+
+        <!-- Congratulations Section -->
+        <div class="section congratulations-section" id="congratulationsSection" style="display: none;">
+            <h2>🎉 Congratulations!</h2>
+            <p>You've completed your Passive Offer Map! Your offer pathway is taking shape beautifully. Now let's turn this into actionable next steps with personalized coaching guidance.</p>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="breakdown-button" id="breakdownButton">✨ Let's Break This Down</button>
+                <p style="margin-top: 15px; color: #4a5568; font-size: 0.95rem;">Get your personalized coaching session and 7-day action plan</p>
+            </div>
+        </div>
+
+            <button class="save-button" id="saveButton">💾 Save Progress</button>
+            
+            <!-- Copyright Footer -->
+            <div style="text-align: center; padding: 40px 20px 20px; color: #4a5568; font-size: 0.9rem; border-top: 1px solid rgba(77, 209, 199, 0.2); margin-top: 40px;">
+                <p>© 2025 <a href="https://acanvatool.com/vip" target="_blank" style="color: #4fd1c7; text-decoration: none; font-weight: 600; transition: color 0.3s ease;" onmouseover="this.style.color='#9f7aea'" onmouseout="this.style.color='#4fd1c7'">Affirmed Visionary for Visionary In Progress</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coaching Popup -->
+    <div class="popup-overlay" id="popupOverlay" style="display: none;">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>✨ Your Personalized Coaching Session</h2>
+                <button class="close-button" id="closeButton">&times;</button>
+            </div>
+            <div class="popup-body" id="popupBody">
+                <!-- Content will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.section[data-section]');
+            let completedSections = 0;
+            
+            sections.forEach((section, index) => {
+                const sectionNumber = parseInt(section.getAttribute('data-section'));
+                const inputs = section.querySelectorAll('input, textarea, select');
+                let filledInputs = 0;
+                let totalInputs = 0;
+                
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        // For checkbox/radio groups, count if at least one is selected
+                        const groupName = input.name;
+                        const groupInputs = section.querySelectorAll(`input[name="${groupName}"]`);
+                        const isGroupFilled = Array.from(groupInputs).some(inp => inp.checked);
+                        
+                        if (input === groupInputs[0]) { // Only count once per group
+                            totalInputs++;
+                            if (isGroupFilled) {
+                                filledInputs++;
+                                
+                                // Check if "other" is selected and has text
+                                const otherSelected = Array.from(groupInputs).find(inp => inp.value === 'other' && inp.checked);
+                                if (otherSelected) {
+                                    const otherInput = section.querySelector(`#${groupName}-other`);
+                                    if (otherInput && otherInput.value.trim() === '') {
+                                        filledInputs--; // Don't count as filled if "other" is selected but no text provided
+                                    }
+                                }
+                            }
+                        }
+                    } else if (!input.classList.contains('other-input')) {
+                        totalInputs++;
+                        if (input.value.trim() !== '') filledInputs++;
+                    }
+                });
+                
+                const completionRate = totalInputs > 0 ? filledInputs / totalInputs : 0;
+                const badge = document.getElementById(`badge-${sectionNumber}`);
+                
+                if (completionRate >= 0.7) { // 70% completion threshold for all sections
+                    badge.classList.add('show');
+                    completedSections++;
+                } else {
+                    badge.classList.remove('show');
+                }
+            });
+            
+            const progressPercentage = (completedSections / sections.length) * 100;
+            document.getElementById('progressFill').style.width = progressPercentage + '%';
+            
+            // Show congratulations section when all sections are complete
+            const congratulationsSection = document.getElementById('congratulationsSection');
+            if (completedSections === sections.length) {
+                congratulationsSection.style.display = 'block';
+                // Smooth scroll to congratulations section
+                setTimeout(() => {
+                    congratulationsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            } else {
+                congratulationsSection.style.display = 'none';
+            }
+        }
+
+        // Get form data for coaching
+        function getFormData() {
+            const formData = new FormData(document.getElementById('offerMapForm'));
+            const data = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            return data;
+        }
+
+        // Format array values for display
+        function formatValues(values) {
+            if (!values) return 'Not specified';
+            if (Array.isArray(values)) {
+                return values.join(', ');
+            }
+            return values;
+        }
+
+        // Generate coaching content
+        function generateCoachingContent(data) {
+            const coachingPrompt = `You are a warm, empowering business coach for visionary women building low-pressure income systems. You believe in soft funnels, passive offers, and sustainable creativity over hustle culture. Your tone is supportive, strategic, and soul-aligned.
+
+I've completed my Passive Offer Map worksheet. Here are my answers:
+
+My core focus is ${data.topic || '[core_focus]'}, serving ${data.audience || '[audience_primary]'} with a tone that is ${formatValues(data.tone) || '[tone_values]'}. My offer stack begins with ${data['freebie-title'] || '[free_title]'} (${data['freebie-format'] || '[free_format]'}) hosted on ${formatValues(data['freebie-host']) || '[free_platforms]'}. Then comes my entry offer, ${data['entry-title'] || '[entry_title]'} at £${data['entry-price'] || '[entry_price]'} (${data['entry-format'] || '[entry_format]'}) on ${formatValues(data['entry-platform']) || '[entry_platforms]'}, followed by my core offer, ${data['core-title'] || '[core_title]'} at £${data['core-price'] || '[core_price]'} (${data['core-format'] || '[core_format]'}) on ${formatValues(data['core-platform']) || '[core_platforms]'}. ${data['expansion-title'] ? `Optional expansion: ${data['expansion-title']} at £${data['expansion-price'] || '[exp_price]'} (${data['expansion-format'] || '[exp_format]'}) on ${formatValues(data['expansion-platform']) || '[exp_platforms]'}.` : 'Optional expansion: [exp_title] at £[exp_price] ([exp_format]) on [exp_platforms].'} I'll nurture with ${formatValues(data['nurture-touchpoints']) || '[nurture_touches]'} and use a ${data['cta-style'] || '[cta_style]'} call-to-action. My creation window is ${data['creation-window'] || '[creation_window]'}, with a launch plan of ${formatValues(data['promo-plan']) || '[promo_plan]'}. I affirm: "${data.affirmation || '[affirmations]'}".
+
+Task 1 – Expansion & Deep Dive
+Ask me 3–5 gentle, insight-led follow-up questions one at a time that will help me:
+
+Strengthen my offer flow
+
+Add more value or touchpoints
+
+Make my offers more personal and aligned with my audience's needs
+
+Keep the questions encouraging, practical, and low-pressure.
+
+Task 2 – 7-Day Gentle Action Plan
+Turn my Passive Offer Map into a 7-day action plan where each day's task takes 30 minutes or less. For each day, include:
+
+A simple daily task
+
+Why it matters
+
+An optional "soft stretch" task for extra momentum
+
+Ensure the plan is beginner-friendly, low-pressure, and fully aligned with a Profit Softly philosophy.`;
+            
+            return coachingPrompt;
+        }
+
+        // Handle checkbox and radio interactions
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                const item = e.target.closest('.checkbox-item');
+                if (e.target.checked) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+                
+                // Handle "Other" checkbox selections
+                if (e.target.value === 'other') {
+                    const section = e.target.closest('.section');
+                    const otherInput = section.querySelector(`#${e.target.name}-other`);
+                    if (otherInput) {
+                        if (e.target.checked) {
+                            otherInput.classList.add('show');
+                            setTimeout(() => otherInput.focus(), 300);
+                        } else {
+                            otherInput.classList.remove('show');
+                            otherInput.value = '';
+                        }
+                    }
+                }
+            }
+            
+            if (e.target.type === 'radio') {
+                // Remove selected class from all radio items in the same group
+                const groupName = e.target.name;
+                const allRadioItems = document.querySelectorAll(`input[name="${groupName}"]`);
+                allRadioItems.forEach(radio => {
+                    radio.closest('.radio-item').classList.remove('selected');
+                });
+                
+                // Add selected class to the checked item
+                if (e.target.checked) {
+                    e.target.closest('.radio-item').classList.add('selected');
+                }
+                
+                // Handle "Other" radio selections
+                const section = e.target.closest('.section');
+                const otherInput = section.querySelector(`#${groupName}-other`);
+                if (otherInput) {
+                    if (e.target.value === 'other' && e.target.checked) {
+                        otherInput.classList.add('show');
+                        setTimeout(() => otherInput.focus(), 300);
+                    } else {
+                        otherInput.classList.remove('show');
+                        otherInput.value = '';
+                    }
+                }
+            }
+            
+            updateProgress();
+        });
+
+        // Handle text input changes
+        document.addEventListener('input', function(e) {
+            if (e.target.type === 'text' || e.target.type === 'number' || e.target.tagName === 'TEXTAREA') {
+                updateProgress();
+            }
+        });
+
+        // Save functionality
+        document.getElementById('saveButton').addEventListener('click', function() {
+            const formData = new FormData(document.getElementById('offerMapForm'));
+            const data = {};
+            
+            // Handle regular inputs
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    // If key already exists, make it an array
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('passiveOfferMap', JSON.stringify(data));
+            
+            // Show feedback
+            const button = this;
+            const originalText = button.innerHTML;
+            button.innerHTML = '✅ Saved!';
+            button.style.background = 'linear-gradient(135deg, #48bb78, #38a169)';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = 'linear-gradient(135deg, #4fd1c7, #9f7aea)';
+            }, 2000);
+        });
+
+        // Load saved data
+        function loadSavedData() {
+            const savedData = localStorage.getItem('passiveOfferMap');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                Object.keys(data).forEach(key => {
+                    const elements = document.querySelectorAll(`[name="${key}"]`);
+                    elements.forEach(element => {
+                        if (element.type === 'checkbox' || element.type === 'radio') {
+                            const values = Array.isArray(data[key]) ? data[key] : [data[key]];
+                            if (values.includes(element.value)) {
+                                element.checked = true;
+                                element.closest('.checkbox-item, .radio-item').classList.add('selected');
+                                
+                                // Show other input if "other" is selected
+                                if (element.value === 'other') {
+                                    const otherInput = element.closest('.section').querySelector(`#${key}-other`);
+                                    if (otherInput) {
+                                        otherInput.classList.add('show');
+                                    }
+                                }
+                            }
+                        } else {
+                            element.value = data[key];
+                        }
+                    });
+                });
+                
+                updateProgress();
+            }
+        }
+
+        // Breakdown button functionality
+        document.getElementById('breakdownButton').addEventListener('click', function() {
+            const formData = getFormData();
+            const coachingPrompt = generateCoachingContent(formData);
+            
+            const popupContent = `
+                <div class="coaching-section">
+                    <h3>✨ Your Personalized Coaching Prompt</h3>
+                    <p>Copy this prompt and paste it into ChatGPT to get your personalized coaching session!</p>
+                    
+                    <button class="copy-button" id="copyPromptButton">
+                        📋 Copy Prompt for ChatGPT
+                    </button>
+                    
+                    <div class="prompt-container" id="promptContainer">${coachingPrompt}</div>
+                </div>
+            `;
+            
+            document.getElementById('popupBody').innerHTML = popupContent;
+            document.getElementById('popupOverlay').style.display = 'flex';
+            
+            // Add copy functionality
+            document.getElementById('copyPromptButton').addEventListener('click', function() {
+                navigator.clipboard.writeText(coachingPrompt).then(() => {
+                    const button = this;
+                    const originalText = button.innerHTML;
+                    
+                    button.classList.add('copied');
+                    button.innerHTML = '✅ Copied! Paste into ChatGPT';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = originalText;
+                    }, 3000);
+                }).catch(err => {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = coachingPrompt;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    
+                    const button = this;
+                    const originalText = button.innerHTML;
+                    
+                    button.classList.add('copied');
+                    button.innerHTML = '✅ Copied! Paste into ChatGPT';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = originalText;
+                    }, 3000);
+                });
+            });
+        });
+
+        // Get Started button functionality
+        document.getElementById('getStartedButton').addEventListener('click', function() {
+            document.getElementById('coverPage').style.display = 'none';
+            document.getElementById('worksheetContent').style.display = 'block';
+            
+            // Smooth scroll to top of worksheet
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Close popup functionality
+        document.getElementById('closeButton').addEventListener('click', function() {
+            document.getElementById('popupOverlay').style.display = 'none';
+        });
+
+        // Close popup when clicking overlay
+        document.getElementById('popupOverlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Close popup with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('popupOverlay').style.display = 'none';
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+            updateProgress();
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('.section').forEach(section => {
+            section.addEventListener('click', function() {
+                this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96f0c9c9b441b370',t:'MTc1NTE3ODAzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
